@@ -1,20 +1,27 @@
 {
-  "name": "backend",
+  "name": "frontend",
   "version": "1.0.0",
-  "main": "src/server.js",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon",
-    "test": "jest"
+    "dev": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "uuid": "^8.3.0"
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^6.3.0",
+    "file-loader": "^6.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.8.0"
   },
   "devDependencies": {
-    "jest": "^25.2.6",
-    "nodemon": "^2.0.2",
-    "supertest": "^4.0.2"
+    "webpack-dev-server": "^4.2.1"
   }
 }

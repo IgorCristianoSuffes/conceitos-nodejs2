@@ -1,87 +1,36 @@
-const express = require("express");
-const cors = require("cors");
+import React, { useState } from "react";
 
-const { v4: uuid, validate: isUuid } = require('uuid');
+import backgroundImage from './assets/background.jpg';
 
-const app = express();
+import './App.css';
 
-app.use(express.json());
-app.use(cors());
+import Header from "./components/Header";
 
-const repositories = [];
+function App() {
 
-app.get("/repositories", (request, response) => {
-  response.status(200).json(repositories);
-});
+    const [projects, setProjects] = useState(['Desenvolvimento de app', 'Front-end web']);
 
-app.post("/repositories", (request, response) => {
-  const { title, url, techs } = request.body;
+    function handleAddProject() {
+        //projects.push(`Novo projeto ${Date.now()}`);
 
-  const repositorie = { id: uuid(), title, url, techs, likes:0};
+        setProjects([...projects, `Novo projeto ${Date.now()}`]);
 
-  repositories.push(repositorie);
+        console.log(projects);
+    }
 
-  return response.status(200).json(repositorie);
+    return (
+        <>
+            <Header title="Projects" />
 
-});
+            <img width={300} src={backgroundImage}/>
 
-app.put("/repositories/:id", (request, response) => {
-  const { id } = request.params;
+            <ul>
+                { projects.map(project => <li key={project} >{ project }</li>) }
+            </ul>
 
-  const { title, url, techs } = request.body;
+            <button type="button" onClick= {handleAddProject} >Adicionar projeto</button>
+        </>
+    );
+}
 
-  const repositorieIndex = repositories.findIndex(repositorie => repositorie.id == id);
-
-  if (repositorieIndex < 0) {
-    return response.status(400).json({ error: 'Repositorie not found!'});
-  }
-
-  console.log(repositories[repositorieIndex]);
-
-  const repositorie = {
-    id,
-    title,
-    url,
-    techs,
-    likes: repositories[repositorieIndex].likes
-  }
-
-  console.log(repositorie);
-
-  repositories[repositorieIndex] = repositorie;
-
-  return response.status(200).json(repositorie);
-
-});
-
-app.delete("/repositories/:id", (request, response) => {
-  const { id } = request.params;
-
-  const repositorieIndex = repositories.findIndex(repositorie => repositorie.id == id);
-
-  if ( repositorieIndex < 0 ) {
-    return response.status(400).json({ error: 'Repositorie not found!'});
-  }
-
-  repositories.splice(repositorieIndex, 1);
-
-  return response.status(204).send();
-
-});
-
-app.post("/repositories/:id/like", (request, response) => {
-  const { id } = request.params;
-
-  const repositorieIndex = repositories.findIndex(repositorie => repositorie.id == id);
-
-  if ( repositorieIndex < 0 ) {
-    return response.status(400).json({ error: 'Repositorie not found!'});
-  }
-
-  repositories[repositorieIndex].likes = repositories[repositorieIndex].likes + 1;
-
-  return response.status(200).json(repositories[repositorieIndex]);
-
-});
-
-module.exports = app;
+export default App;
